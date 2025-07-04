@@ -1,5 +1,0 @@
-#include <WiFi.h>
-#include <U8g2lib.h>
-#include <HTTPUpdate.h>
-
-c
