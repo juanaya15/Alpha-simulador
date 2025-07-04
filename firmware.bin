@@ -2,47 +2,4 @@
 #include <U8g2lib.h>
 #include <HTTPUpdate.h>
 
-const char* ssid = "JUAN";
-const char* password = "15201523";
-
-const char* firmware_url = "https://raw.githubusercontent.com/juanaya15/esp32-firware/refs/heads/main/firmware.bin";
-
-U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0);
-
-void setup() {
-  Serial.begin(115200);
-
-  // Iniciar OLED
-  u8g2.begin();
-  u8g2.clearBuffer();
-  u8g2.setFont(u8g2_font_ncenB08_tr);
-  u8g2.drawStr(0,15,"Wi-Fi activo");
-  u8g2.drawStr(0,35,"Version 2");
-  u8g2.sendBuffer();
-
-  // Conectar Wi-Fi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("\nWi-Fi conectado.");
-
-  // Verificar actualización OTA
-  Serial.println("Verificando actualizacion...");
-  t_httpUpdate_return ret = httpUpdate.update(firmware_url);
-
-  switch (ret) {
-    case HTTP_UPDATE_FAILED:
-      Serial.printf("ERROR (%d): %s\n", httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
-      break;
-    case HTTP_UPDATE_NO_UPDATES:
-      Serial.println("No hay actualizaciones.");
-      break;
-    case HTTP_UPDATE_OK:
-      Serial.println("Actualizacion exitosa!");
-      break;
-  }
-}
-
-void loop() {}
+c
