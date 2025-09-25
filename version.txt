@@ -1,1 +1,14 @@
-1.55
+El kilometraje está guardado en dos bloques:
+	1.	Bloque directo: son los bytes que comienzan con 7D (ejemplo: 7D D1, 7D D2, 7D D3, 7D D4).
+	•	Para calcular el kilometraje, se toma ese par en big-endian.
+	•	Ejemplo: 7D D2 → 0x7DD2 → 32210 km.
+	2.	Bloque espejo: son los bytes que comienzan con 82 (ejemplo: 82 2E, 82 2D, 82 2C, 82 2B).
+	•	Cada byte del bloque espejo es el complemento del directo:
+fórmula → espejo = 0xFF – directo.
+	•	Ejemplo: 7D D2 ↔ 82 2D.
+	3.	El kilometraje real siempre se calcula con el bloque directo (7D ..).
+	•	Los bloques espejo (82 ..) solo sirven para validación, pero deben coincidir.
+	4.	Para cambiar el kilometraje:
+	•	Convertir el nuevo valor a hexadecimal big-endian.
+	•	Escribirlo en todos los bloques directos (7D ..).
+	•	Calcular sus espejos con la fórmula 0xFF – byte y escribirlos en los bloques espejo (82 ..).
